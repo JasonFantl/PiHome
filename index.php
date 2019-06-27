@@ -7,7 +7,7 @@
 </head>
 
 
-<h1>Javascript inside script test</h1>
+<h1>Javascript inside script WHAT</h1>
 <input type="button" value="Click me" onclick="alert('Thanks... I feel much better now!');">
 
 <h1>Javascript external file</h1>

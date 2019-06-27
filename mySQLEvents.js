@@ -1,4 +1,3 @@
-
 var xhm1 = new XMLHttpRequest();
 
 window.onload = function() {
