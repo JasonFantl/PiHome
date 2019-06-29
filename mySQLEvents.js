@@ -22,7 +22,17 @@ window.onload = function() {
 
 function updateTable(){
 	var content = document.getElementById("serverOut");
-	content.innerHTML = fetchData()
+	var recievedData = fetchData();
+	//content.innerHTML = recievedData;
+	
+	var mySQLArray = JSON.parse(recievedData);
+	
+	var outputHTML = "";
+	for(i = 0; i < mySQLArray.length; i++) {
+		outputHTML += createHTML(mySQLArray[i]);
+	}
+	
+	content.innerHTML = outputHTML;
 }
 
 function fetchData(){
@@ -36,3 +46,37 @@ function fetchData(){
 	return returnVal;
 }
 
+function createHTML(inObj) {
+	var name = inObj.name;
+	var value = inObj.value;
+	var sensor = inObj.sensor;
+	var read_only = inObj.read_only;
+	
+	
+	var output =	"<div class=\"sensor\">" +
+						"<p class=\"name\">" + name + "</p>";
+						
+	if(sensor == "LED") {
+		output += "<img class=\"image\" src=\"imgs/bulb1.png\" alt=\"LED\">"
+	}
+	
+	output += "<p>";
+	
+	if(value == "1") {
+		output += "<mark class=\"on\">ON</mark> <mark class=\"off\">OFF</mark>";
+	}
+	else if(value == "0") {
+		output += "<mark class=\"off\">ON</mark> <mark class=\"on\">OFF</mark>";
+	}
+	output += "</p>";
+	
+	if(read_only == "0") {
+		var isOn = (value == "1") ? "on" : "off";
+		output += "<input id=\"switchUpdate\" type=\"button\" class=\"button\" value=\"switch " + isOn + "\">";
+	}
+	
+	output += "</div>";
+	
+	
+	return output;
+}

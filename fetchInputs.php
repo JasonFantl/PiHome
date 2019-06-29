@@ -1,11 +1,9 @@
 
 
 <?php
-echo "connecting...";
 
 $mysqli = new mysqli('localhost', 'root', '1blownFuse', 'sensors');
 
-echo "fetching... ";
 
 
 // Oh no! A connect_errno exists so the connection attempt failed!
@@ -27,7 +25,6 @@ if ($mysqli->connect_errno) {
     exit;
 }
 
-
 // Perform an SQL query
    $sql = 'SELECT name, value, sensor, read_only FROM inputs';
 if (!$result = $mysqli->query($sql)) {
@@ -44,19 +41,14 @@ if (!$result = $mysqli->query($sql)) {
 }
 
 if ($result->num_rows > 0) {
-   echo "<table id=\"inputState\">
- <tr>
-  <th>name</th> 
-  <th>value</th>
-  <th>type</th>
-  <th>read only</th>
- </tr>";
-   // output data of each row
+   $mySQLArray = array();
+
    while($row = $result->fetch_assoc()) {
-      echo "<tr><td>" . $row["name"] . "</td><td>". $row["value"]. "</td><td>". $row["sensor"]. "</td><td>". $row["read_only"]. "</td></tr>";
-   }
-   echo "</table>";
-} else { echo "0 results"; }
+        $emparray[] = $row;   
+    }
+    echo json_encode($emparray);
+}
+ else { echo "0 results"; }
 
 
 // The script will automatically free the result and close the MySQL

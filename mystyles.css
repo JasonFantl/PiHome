@@ -1,0 +1,60 @@
+.sensor{
+	border-radius: 25px;
+	background:#2F2F2F;
+	border: 10px solid #949494;
+	padding: 20px; 
+	width: 200px;
+	height: 250px; 
+	text-align: center;
+	font-size:34px;
+	font-weight:bold;
+	font-family: monospace;
+	position:relative;
+
+}
+ 
+ .name{
+ 	text-align: center;
+	position:relative;
+	top:0px;
+ }
+ 
+ .image{
+	width:100px;
+	margin: 0 auto;
+	-moz-opacity:0.4;
+	filter:alpha(opacity=40);
+  }
+  
+
+
+.on {
+	text-align: center;
+	background: none;
+	position:relative;
+	bottom:0px;
+	color: #D7E202;
+}
+
+.off{
+	text-align: center;
+	background: none;
+	position:relative;
+	bottom:0px;
+	color: #949494;
+}
+
+
+.button {
+	position:relative;
+	bottom:0px;
+	background-color: #F5F5F5;
+	border-radius: 25px;
+	border: none;
+	color: black;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
