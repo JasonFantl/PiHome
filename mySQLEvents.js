@@ -5,25 +5,11 @@ window.onload = function() {
 	updateTable();
 	setInterval(updateTable, 1000);
 
-	var updateButton = document.getElementById("serverUpdate");
-	var content2 = document.getElementById("updateStatus");
-	
-	var xhm2 = new XMLHttpRequest();
-
-	updateButton.onclick = function() {
-		xhm2.addEventListener("readystatechange",function() {
-			content2.innerHTML = this.responseText;
-		});
-		xhm2.open("GET","updateInputs.php",false);
-		xhm2.send();
-		updateTable();
-	};
 };
 
 function updateTable(){
 	var content = document.getElementById("serverOut");
 	var recievedData = fetchData();
-	//content.innerHTML = recievedData;
 	
 	var mySQLArray = JSON.parse(recievedData);
 	
@@ -53,11 +39,20 @@ function createHTML(inObj) {
 	var read_only = inObj.read_only;
 	
 	
-	var output =	"<div class=\"sensor\">" +
-						"<p class=\"name\">" + name + "</p>";
+	var output = "<div class=\"sensor\" id=\"" + name + "\"";
+	
+	if(read_only == "0") {
+		var isOn = (value == "1") ? "on" : "off";
+		output += " onclick=\"updateServer(\'" + name + "\')\"";
+	}
+	
+	output += "><p class=\"name\">" + name + "</p>";
 						
 	if(sensor == "LED") {
 		output += "<img class=\"image\" src=\"imgs/bulb1.png\" alt=\"LED\">"
+	}
+	else if(sensor == "button") {
+		output += "<img class=\"image\" src=\"imgs/switch2.png\" alt=\"LED\">"
 	}
 	
 	output += "<p>";
@@ -68,15 +63,25 @@ function createHTML(inObj) {
 	else if(value == "0") {
 		output += "<mark class=\"off\">ON</mark> <mark class=\"on\">OFF</mark>";
 	}
-	output += "</p>";
-	
-	if(read_only == "0") {
-		var isOn = (value == "1") ? "on" : "off";
-		output += "<input id=\"switchUpdate\" type=\"button\" class=\"button\" value=\"switch " + isOn + "\">";
-	}
-	
-	output += "</div>";
-	
+	output += "</p></div>";
 	
 	return output;
 }
+
+
+var updateServer = function(id) {
+	var sensorDiv = document.getElementById("updateStatus");
+	sensorDiv.innerHTML = "updating " + id;
+	$("#updateStatus").show();
+	$("#updateStatus").fadeTo(0, 1);
+	$("#updateStatus").fadeTo(1000, 0);
+
+	  $.post("updateInputs.php",
+	  { name: id },
+	  function(data, status){
+		 //console.log("Data: " + data + "\nStatus: " + status);
+	  });
+	  
+	updateTable();
+
+};
